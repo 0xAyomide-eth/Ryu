@@ -1,2 +1,2 @@
 # Ryu
-token staking platform
+token staking platform built on sepolia ethereum
