@@ -8,19 +8,27 @@
 
 body{
 font-family: 'Poppins';
+min-height: 100vh;
 }
 
 .dashboard{
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .dashboard .top-dashboard{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: 10px;
+    flex-wrap: wrap;
+    padding: 30px 10px;
     background-color: lightcoral;
+    border-radius: 15px;
 }
 
 .top-dashboard .container-1{
@@ -29,10 +37,14 @@ font-family: 'Poppins';
     border: 1px solid white;
     padding: 10px;
     border-radius: 15px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
 .container-1 .container-1-text{
-    text-align: center;
+   padding-left: 20px;
 }
 
 .container-1 .container-Bal{
@@ -40,23 +52,190 @@ font-family: 'Poppins';
     align-items: center;
     justify-content: center;
     font-size: 60px;
+    padding-left: 20px;
 }
 
 .dashboard .bottom-dashboard{
     display: flex;
+    flex: 1;
+    gap: 30px;
+    padding: 30px;
+    flex-wrap: wrap;
     
 }
 
 .bottom-dashboard .faucet-claim{
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex: 1;
-    background-color: lightgreen;
+    min-width: 300px;
+    background-color: rgb(43, 56, 172);
+    padding: 30px 20px;
+    border-radius: 15px;
 }
+
+.faucet-claim p{
+  font-weight: 600;
+  color: #fefefe;
+}
+
+.faucet-claim input{
+  padding: 10px;
+  margin: 20px 10px;
+  width: 300px;
+  outline: none;
+  font-family: 'Poppins';
+  border-radius: 5px;
+  border: 2px solid #fefefe;
+  background-color: #111111;
+  font-size: 15px;
+  font-weight: 600;
+  color:#fefefe;
+
+}
+
+
+.claim-tokens-btn {
+  position: relative;
+  border: none;
+  background-color: #111111;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 30px;
+  border-radius: 15px;
+  color: white;
+  font-family: 'Poppins';
+    letter-spacing: 1px;
+  font-weight: 600;
+  /* Left box shadow */
+  box-shadow: -10px 5px 0 rgba(0, 0, 0, 0.3);
+  
+  /* Smooth transition for all effects */
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5), 
+              box-shadow 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+/* Hover effect - button lifts up and left */
+.claim-tokens-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: -14px 14px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Click/Jump effect */
+.claim-tokens-btn:active {
+  transform: translate(0px, 4px);
+  box-shadow: -6px 2px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 100ms cubic-bezier(0.4, 1.2, 0.3, 1), 
+              box-shadow 100ms ease;
+}
+
+
+
 
 .bottom-dashboard .stake-window{
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: lightskyblue;
+    min-width: 300px;
+    border-radius:15px;
+    padding: 30px 20px;
+    background-color: rgb(43, 56, 172);
+    align-items: center;
+}
+
+.stake-window input{
+  margin: 10px 0px;
+  padding: 10px;
+  max-width: 300px;
+    width: 300px;
+  outline: none;
+  font-family: 'Poppins';
+  border-radius: 5px;
+  border: 2px solid #fefefe;
+  background-color: #111111;
+
+  font-size: 15px;
+  font-weight: 600;
+  color:#fefefe;
+}
+
+.stake-window button{
+    position: relative;
+  border: none;
+  background-color: #111111;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 30px;
+  border-radius: 15px;
+  margin-top: 20px;
+  color: white;
+  font-family: 'Poppins';
+  letter-spacing: 1px;
+  font-weight: 600;
+  /* Left box shadow */
+  box-shadow: -10px 5px 0 rgba(0, 0, 0, 0.3);
+  
+  /* Smooth transition for all effects */
+  transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5), 
+              box-shadow 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+
+/* Hover effect - button lifts up and left */
+.stake-window button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: -14px 14px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Click/Jump effect */
+.stake-window button:active {
+  transform: translate(0px, 4px);
+  box-shadow: -6px 2px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 100ms cubic-bezier(0.4, 1.2, 0.3, 1), 
+              box-shadow 100ms ease;
+}
+
+
+.stake-window .staking-duration{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.staking-duration .days{
+  margin: 5px 10px;
+  padding: 10px;
+  border: 2px solid white;
+  font-weight: 600;
+  color: white;
+    border-radius: 15px;
+}
+
+/* Responsive for smaller PC screens */
+@media (max-width: 1024px) {
+    .dashboard .bottom-dashboard {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .bottom-dashboard .faucet-claim,
+    .bottom-dashboard .stake-window {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard .top-dashboard {
+        gap: 20px;
+    }
+    
+    .top-dashboard .container-1 {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .container-1 .container-Bal {
+        font-size: 36px;
+    }
 }
