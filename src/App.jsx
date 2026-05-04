@@ -1,5 +1,3 @@
-import './App.css'
-
 function App() {
 
   return (
@@ -29,18 +27,20 @@ function App() {
   <div className="faucet-claim">
     <p>Claim 100 RYU</p>
     <input type="text" placeholder='enter wallet address' />
-    <button>Claim tokens</button>
+    <button class="claim-tokens-btn">
+    Claim Tokens
+</button>
   </div>
   <div className="stake-window">
     <p>Stack 10 tokens</p>
-    <label htmlFor="staking-amount">enter staking amount</label>
+
     <input type="text" placeholder='enter staking amount' name='staking-amount'/>
-    <label htmlFor="staking-duration">How many days to token</label>
+
     <input type="text" placeholder='enter days' name='staking-duration'/>
     <div className="staking-duration">
-      <div>30 days</div>
-      <div>60 days</div>
-      <div>90 days</div>
+      <div className="days">30 days</div>
+      <div className="days">60 days</div>
+      <div className="days">90 days</div>
     </div>
     <button>Stake Tokens</button>
   </div>
