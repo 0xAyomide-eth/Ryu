@@ -1,8 +1,16 @@
+import './App.css'
+
 function App() {
 
   return (
     <>
 <main className="dashboard">
+
+    <div className="navbar">
+      <p className="connectedAddy">0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0</p>
+      <button>connect wallet</button>
+    </div>
+
   <div className="top-dashboard">
   <div className="container-1">
     <p className='container-1-text'>Token Balance:</p>
@@ -28,7 +36,7 @@ function App() {
     <p>Claim 100 RYU</p>
     <input type="text" placeholder='enter wallet address' />
     <button class="claim-tokens-btn">
-    Claim Tokens
+    connect wallet
 </button>
   </div>
   <div className="stake-window">
