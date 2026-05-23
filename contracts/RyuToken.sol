@@ -6,7 +6,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract RYU is ERC20 , Ownable{
     //claim amount
-    uint256 public constant Claim_amt = 100 * 10**18;
+    uint256 public constant Claim_amt = 100 * 10**3;
     uint256 public constant cooldown = 24 hours;
 
     //track who claimed last
@@ -16,7 +16,7 @@ contract RYU is ERC20 , Ownable{
     address public stakingContract;
 
     constructor() ERC20("RYU","RYU") Ownable(msg.sender){
-        _mint(msg.sender, 100 * 10** 18);
+        _mint(msg.sender, 100 * 10** 3);
     } 
 
     //setting the staking contract to mint rewards
