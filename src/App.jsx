@@ -1,14 +1,47 @@
+import { useConnect, useDisconnect, useAccount } from 'wagmi'
+import { injected } from 'wagmi/connectors'
 import './App.css'
 
 function App() {
+
+const BtnStyle = {
+  color: "white",
+  backgroundColor: "#111111",
+  border: "none",
+  outline: "none",
+  cursor: "pointer",
+  fontFamily: "'Poppins', sans-serif", // Added a fallback just in case
+  letterSpacing: "1px",
+  fontWeight: 600 // Numbers can stay as numbers in JS style objects
+};
+
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect()
+  const { disconnect } = useDisconnect()
+
+  //function to shorten the address
+
+  const shortenAddy = (addy) => {
+    if (!addy) return " "
+    return `${addy.slice(0, 6)}...${addy.slice(-4)}`
+  }
 
   return (
     <>
       <main className="dashboard">
 
         <div className="navbar">
-          <p className="connectedAddy">0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0</p>
-          <button>connect wallet</button>
+          {isConnected ? (
+            <>
+              <p className="connectedAddy">{shortenAddy(address)}</p>
+              <button onClick={() => disconnect()}>Disconnect wallet</button>
+            </>
+          ) : (
+            <>
+              <p className="connectedAddy">Not Connected</p>
+              <button onClick={() => connect({ connector:injected() })}>Connect Wallet</button>
+            </>
+          )}
         </div>
 
         <div className="top-dashboard">
@@ -35,8 +68,8 @@ function App() {
           <div className="faucet-claim">
             <p>Claim 100 RYU</p>
             <input type="text" placeholder='enter wallet address' />
-            <button class="claim-tokens-btn">
-              connect wallet
+            <button className="claim-tokens-btn">
+              {isConnected ? 'Claim Tokens' : (<button onClick={() => connect({ connector:injected() })} style={BtnStyle}> Connect Wallet </button>)}
             </button>
           </div>
           <div className="stake-window">
@@ -51,8 +84,8 @@ function App() {
               <div className="days">90 days</div>
             </div>
             <div className="button-area">
-              <button>Stake</button>
-              <button>Unstake</button>
+              <button disabled={!isConnected}>Stake</button>
+              <button disabled={!isConnected}>Unstake</button>
             </div>
           </div>
         </div>
