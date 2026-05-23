@@ -4,7 +4,7 @@ pragma solidity ^0.8.34;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract AyoJohn is ERC20 , Ownable{
+contract RYU is ERC20 , Ownable{
     //claim amount
     uint256 public constant Claim_amt = 100 * 10**18;
     uint256 public constant cooldown = 24 hours;
@@ -15,7 +15,7 @@ contract AyoJohn is ERC20 , Ownable{
     //staking contract address 
     address public stakingContract;
 
-    constructor() ERC20("AyoJunir","AJJ") Ownable(msg.sender){
+    constructor() ERC20("RYU","RYU") Ownable(msg.sender){
         _mint(msg.sender, 100 * 10** 18);
     } 
 
