@@ -1,5 +1,5 @@
-export const TokenContract = "0x99cfb653B721f590Edb97b9Cf6e4305a984F7407"
-export const StakingMechContract = "0x650D5B781E854697036080d54489c0EC1e20F7fb"
+export const TokenContract = "0xEcE2901d180C58a3D4a45b122a17C9f95E28767A"
+export const StakingMechContract = "0x06Ab6aB7fC7Ca850F7469960C996e8008236B267"
 
 export const TokenContractABI = [
 	{

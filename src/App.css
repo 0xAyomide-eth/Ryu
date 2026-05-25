@@ -6,8 +6,10 @@
     box-sizing: border-box;
 }
 
+
+
 body{
-font-family: 'Poppins';
+font-family: 'Poppins',monospace;
 min-height: 100vh;
 }
 
@@ -49,7 +51,7 @@ min-height: 100vh;
   padding: 20px 30px;
   border-radius: 15px;
   color: white;
-  font-family: 'Poppins';
+  font-family: inherit;
     letter-spacing: 1px;
   font-weight: 600;
 
@@ -161,8 +163,9 @@ min-height: 100vh;
   padding: 20px 30px;
   border-radius: 15px;
   color: white;
-  font-family: 'Poppins';
+  font-family: inherit;
     letter-spacing: 1px;
+    margin: 20px;
   font-weight: 600;
   /* Left box shadow */
   box-shadow: -10px 5px 0 rgba(0, 0, 0, 0.3);
@@ -216,9 +219,14 @@ min-height: 100vh;
   color:#fefefe;
 }
 
+.stake-window input::placeholder{
+   font-family: inherit;
+}
+
 .stake-window button{
     position: relative;
   border: none;
+   font-family: inherit;
   background-color: #111111;
   outline: none;
   cursor: pointer;
@@ -226,7 +234,6 @@ min-height: 100vh;
   border-radius: 15px;
   margin-top: 20px;
   color: white;
-  font-family: 'Poppins';
   letter-spacing: 1px;
   font-weight: 600;
   /* Left box shadow */
@@ -264,7 +271,7 @@ min-height: 100vh;
   justify-content: center;
 }
 
-.staking-duration .days{
+.staking-duration button{
   margin: 5px 10px;
   padding: 10px;
   font-weight: 600;
@@ -280,12 +287,12 @@ min-height: 100vh;
               box-shadow 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
 }
 
-.days:hover{
+.staking-duration button:hover{
     transform: translate(-2px, -2px);
   box-shadow: -14px 14px 0 rgba(0, 0, 0, 0.4);
 }
 
-.days:active{
+.staking-duration button:active{
     transform: translate(0px, 4px);
   box-shadow: -6px 2px 0 rgba(0, 0, 0, 0.3);
   transition: transform 100ms cubic-bezier(0.4, 1.2, 0.3, 1), 

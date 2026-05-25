@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { maxUint256 } from 'viem'
 import { readContract, writeContract, waitForTransactionReceipt } from '@wagmi/core'
 import { useConnect, useDisconnect, useAccount } from 'wagmi'
 import { injected } from 'wagmi/connectors'
-import { config } from './walletconfig' // ADD THIS IMPORT
+import { config } from './walletconfig'
 import { TokenContract, StakingMechContract, TokenContractABI, StakingMechContractABI } from './contractdeets'
 import './App.css'
 
@@ -26,12 +27,10 @@ function App() {
   const [canClaim, setCanClaim] = useState(false)
   const [lastClaimTime, setLastClaimTime] = useState('0')
 
-  // Function to fetch user data
   const fetchUserData = async () => {
     if (!address) return
 
     try {
-      // Fetch token balance
       const balance = await readContract(config, {
         address: TokenContract,
         abi: TokenContractABI,
@@ -40,7 +39,6 @@ function App() {
       })
       setTokenBalance(balance.toString())
 
-      // Fetch stake info
       const stake = await readContract(config, {
         address: StakingMechContract,
         abi: StakingMechContractABI,
@@ -70,7 +68,6 @@ function App() {
     }
   }
 
-  // Check allowance function
   const checkAllowance = async () => {
     if (!address) return
 
@@ -82,13 +79,16 @@ function App() {
         args: [address, StakingMechContract],
       })
 
-      setNeedsApproval(allowance === 0n || allowance.toString() === '0')
+      const amountInWei = stakingAmount
+        ? BigInt(Math.floor(parseFloat(stakingAmount) * 10 ** 18))
+        : 0n
+
+      setNeedsApproval(allowance < amountInWei)
     } catch (error) {
       console.error('Error checking allowance:', error)
     }
   }
 
-  // Check claim eligibility function
   const checkClaimEligibility = async () => {
     if (!address) return
 
@@ -117,7 +117,6 @@ function App() {
     }
   }
 
-  // ADD THIS MISSING FUNCTION - Handle Claim Tokens
   const handleClaimTokens = async () => {
     setIsLoading(true)
     try {
@@ -126,6 +125,7 @@ function App() {
         abi: TokenContractABI,
         functionName: 'claim',
         args: [],
+        gas: 100000n,
       })
 
       await waitForTransactionReceipt(config, { hash })
@@ -141,20 +141,14 @@ function App() {
   }
 
   const handleApprove = async () => {
-    if (!stakingAmount) {
-      alert('Please enter an amount to approve')
-      return
-    }
-
     setIsLoading(true)
     try {
-      const amountInWei = BigInt(parseFloat(stakingAmount) * 10 ** 18)
-
       const hash = await writeContract(config, {
         address: TokenContract,
         abi: TokenContractABI,
         functionName: 'approve',
-        args: [StakingMechContract, amountInWei],
+        args: [StakingMechContract, maxUint256],
+        gas: 100000n,
       })
 
       await waitForTransactionReceipt(config, { hash })
@@ -182,7 +176,7 @@ function App() {
     setIsLoading(true)
 
     try {
-      const amountInWei = BigInt(parseFloat(stakingAmount) * 10 ** 18)
+      const amountInWei = BigInt(Math.floor(parseFloat(stakingAmount) * 10 ** 18))
       let hash
 
       if (selectedDuration === 30) {
@@ -191,6 +185,7 @@ function App() {
           abi: StakingMechContractABI,
           functionName: 'stake30',
           args: [amountInWei],
+          gas: 200000n,
         })
       } else if (selectedDuration === 60) {
         hash = await writeContract(config, {
@@ -198,6 +193,7 @@ function App() {
           abi: StakingMechContractABI,
           functionName: 'stake60',
           args: [amountInWei],
+          gas: 200000n,
         })
       } else if (selectedDuration === 90) {
         hash = await writeContract(config, {
@@ -205,6 +201,7 @@ function App() {
           abi: StakingMechContractABI,
           functionName: 'stake90',
           args: [amountInWei],
+          gas: 200000n,
         })
       } else {
         alert('Please select 30, 60, or 90 days')
@@ -234,6 +231,7 @@ function App() {
         abi: StakingMechContractABI,
         functionName: 'unstake',
         args: [],
+        gas: 150000n,
       })
 
       await waitForTransactionReceipt(config, { hash })
@@ -269,9 +267,8 @@ function App() {
       checkAllowance()
       checkClaimEligibility()
     }
-  }, [isConnected, address]) // Remove fetchUserData from deps to avoid infinite loop
+  }, [isConnected, address, stakingAmount])
 
-  // Countdown timer for claim
   useEffect(() => {
     if (!canClaim && lastClaimTime !== '0') {
       const interval = setInterval(() => {
@@ -349,11 +346,12 @@ function App() {
             </button>
             {lastClaimTime !== '0' && !canClaim && isConnected && (
               <p style={{ fontSize: '12px', marginTop: '5px' }}>
-                ⏰ You can claim again in <span id="countdown"></span>
+                 You can claim again in <span id="countdown"></span>
               </p>
             )}
           </div>
 
+          {/* staking window */}
           <div className="stake-window">
             <p>Stake RYU Tokens</p>
 
@@ -368,34 +366,33 @@ function App() {
 
             <div className="staking-duration">
               <button
-                className="days"
                 onClick={() => !hasActiveStake && setSelectedDuration(30)}
+                disabled={hasActiveStake}
               >
                 30 days (8% APR)
               </button>
               <button
-                className={`days ${selectedDuration === 60 ? 'active' : ''}`}
                 onClick={() => !hasActiveStake && setSelectedDuration(60)}
                 disabled={hasActiveStake}
               >
-                60 days (8% APR)
+                60 days (10% APR)
               </button>
-              <div
-                className={`days ${selectedDuration === 90 ? 'active' : ''}`}
+              <button
                 onClick={() => !hasActiveStake && setSelectedDuration(90)}
+                disabled={hasActiveStake}
               >
                 90 days (12% APR)
-              </div>
+              </button>
             </div>
 
             {hasActiveStake && (
-              <p style={{ color: 'orange', textAlign: 'center', fontSize: '12px', margin: '10px 0' }}>
+              <p style={{ color: 'white', textAlign: 'center', fontSize: '16px', margin: '10px 0', fontWeight: '700' }}>
                 You already have an active stake! Unstake first to stake more.
               </p>
             )}
 
             {!hasActiveStake && selectedDuration && (
-              <p style={{ color: 'green', textAlign: 'center', fontSize: '12px', margin: '10px 0' }}>
+              <p style={{ color: 'white', textAlign: 'center', fontSize: '16px', margin: '10px 0', fontWeight: '700' }}>
                 {selectedDuration} day staking with {selectedDuration === 30 ? '8' : selectedDuration === 60 ? '10' : '12'}% APR selected
               </p>
             )}
@@ -404,7 +401,7 @@ function App() {
               {needsApproval && !hasActiveStake ? (
                 <button
                   onClick={handleApprove}
-                  disabled={!isConnected || isLoading || !stakingAmount}
+                  disabled={!isConnected || isLoading}
                 >
                   {isLoading ? 'Approving...' : 'Approve Tokens'}
                 </button>

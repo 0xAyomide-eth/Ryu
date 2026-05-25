@@ -6,7 +6,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract RYU is ERC20 , Ownable{
     //claim amount
-    uint256 public constant Claim_amt = 100 * 10**3;
+    uint256 public constant Claim_amt = 2 * 10**3;
     uint256 public constant cooldown = 24 hours;
 
     //track who claimed last
